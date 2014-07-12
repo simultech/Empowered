@@ -7,10 +7,6 @@ class InformationController extends AppController {
 	}
 
 	public function index() {
-
-	}
-
-	public function events() {
 		//parks
 		$data = $this->parseXML('files/parks.xml');
 		foreach($data as &$item) {

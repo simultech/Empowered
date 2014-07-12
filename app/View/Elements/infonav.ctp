@@ -12,8 +12,7 @@
 	$activeareas[$active] = 'class="active"';
 ?>
 <ul class="nav nav-pills">
-	<li <?php echo $activeareas['all']; ?>><a href="/information/">All Data</a></li>
-	<li <?php echo $activeareas['events']; ?>><a href="/information/events">Events</a></li>
+	<li <?php echo $activeareas['events']; ?>><a href="/information">Events</a></li>
 	<li <?php echo $activeareas['parks']; ?>><a href="/information/parks">Parks</a></li>
 	<li <?php echo $activeareas['hospitals']; ?>><a href="/information/hospitals">Hospitals and Clinics</a></li>
 	<li <?php echo $activeareas['allowance']; ?>><a href="/information/allowance">Carer Allowance</a></li>
