@@ -1,12 +1,4 @@
-<h2>Information Database</h2>
-<ul class="nav nav-pills">
-	<li class="active"><a href="#">All Data</a></li>
-	<li><a href="#">Events</a></li>
-	<li><a href="#">Parks</a></li>
-	<li><a href="#">Hospitals and Clinics</a></li>
-	<li><a href="#">Carer Allowance</a></li>
-	<li><a href="#">Carer Statistics</a></li>
-	<li><a href="#">Carer Needs</a></li>
-	<li><a href="#">Disability Types</a></li>
-</ul>
+<h2>Information Database - All Data</h2>
+<?php echo $this->element('infonav',array('active'=>'all')); ?>
+
 <?php echo $this->element('map',array('map_id'=>'fdjklsafdlskja','map_height'=>'300','map_class'=>'col-sm-6', 'map_lat'=>'-34.397', 'map_lng'=>'150.644')); ?>
