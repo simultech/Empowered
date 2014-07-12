@@ -72,5 +72,19 @@ div.meta {
 div.map {
 	border:1px solid #ccc;
 	padding:10px;
-	margin:10px;
+}
+
+div.info-item {
+	border:1px solid #eee;
+	padding:10px;
+	margin-bottom:10px;
+	border-radius:4px;
+}
+div.info-item h3 {
+	margin:10px 0;
+}
+div.info-item .info-date {
+	float:right;
+	margin:14px 0;
+	font-weight:bold;
 }

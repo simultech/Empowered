@@ -11,77 +11,13 @@ class InformationController extends AppController {
 	}
 
 	public function events() {
-		//$data = $this->parsestuff('http://www.trumba.com/calendars/brisbane-festival.rss');
+		//parks
 		$data = $this->parseXML('files/parks.xml');
-		print_r($data);
-		die();
-
-
-
-		// $data = $this->parseRSS($rssfeed);
-		// //merge datasets
-		// $newdata = array();
-		// //sort by something
-		// //http://stackoverflow.com/questions/1597736/how-to-sort-an-array-of-associative-arrays-by-value-of-a-given-key-in-php
-		// $data = array_merge($data,$newdata);
-		// $this->set('data',$data);
-
-		// $xml = new XMLReader;
-		// $xml->open($rssfeed);
-	// 	$xml->read();
-	// //	$xml->getAttribute("title");
-	// 	$data = $xml->getAttribute('title');
-	// 	print $data;
-	// 		$reader = new XMLReader();
-	// 		$reader->open($rssfeed);
-	// 		// $i = 0;
-	// 		// $imax = 10;
-	// 		// $output = "";
-	//
-	// 		while ($reader->read() && $reader->name !== 'title');
-	//
-	// 		while ($reader->name === 'title') {
-	// 				echo $reader->name;
-	// 		}
-	//
-	//
-	// 		die();
-	//
-	// 		while ($reader->read()){
-	// 		if ($reader->name == "title" && $reader->nodeType ==XMLReader::ELEMENT) {
-	// 		  $data = $reader->read();
-	// 			print_r($reader);
-	// 			print_r($data);
-	// 			die();
-	// 			 // will get TITLE
-	// 		}
-	// 	}
-	// //	print $data;
-	// 	$this->set('data',$data);
-			// while ($i++ < $imax) {
-			// 	$output += $reader->read();
-			// }
-			$tree = new RecursiveIteratorIterator(
-		    new SimpleXmlIterator($xml),
-		    RecursiveIteratorIterator::SELF_FIRST
-		);
-		$items = array();
-		$currentitem = null;
-		foreach ($tree as $node) {
-				switch($node->getName()) {
-				case 'item':
-					if($currentitem != null) {
-						$items[] = $currentitem;
-					}
-					$currentitem = array();
-					break;
-				case 'title': $currentitem['title'] = $node;
-				case 'description': $currentitem['description'] = $node;
-				case 'link': $currentitem['link'] = $node;
-		    //echo $node->getName(), PHP_EOL;
-			}
+		foreach($data as &$item) {
+			$item['state'] = 'qld';
+			$item['date'] = html_entity_decode(substr($item['description'],0,strpos($item['description'],'&lt;br')));
 		}
-		print_r($items);
+		$this->set('data',$data);
 	}
 
 	public function parks() {
@@ -96,7 +32,28 @@ class InformationController extends AppController {
 	}
 
 	public function hospitals() {
-
+		$csv = file_get_contents('files/immunisation_clincs.csv');
+		$lines = split("\n", $csv);
+		$data = array();
+		foreach($lines as $line) {
+			$item = array();
+			$offset = 0;
+			$cols = split(',',$line);
+			if($cols[0] == 'id' || sizeOf($cols) < 3) {
+				continue;
+			}
+			$item['name'] = '';
+			for($i=1; $i<sizeOf($cols)-5; $i++) {
+				$item['name'] .= $cols[$i];
+			}
+			$item['name'] = str_replace('"', '', $item['name']);
+			$item['lat'] = $cols[sizeOf($cols)-2];
+			$item['lng'] = $cols[sizeOf($cols)-1];
+			$item['title'] = 'Government Clinic';
+			$item['state'] = 'qld';
+			$data[] = $item;
+		}
+		$this->set('data',$data);
 	}
 
 	public function allowance() {
@@ -115,24 +72,8 @@ class InformationController extends AppController {
 
 	}
 
-	public function sequentialReader($rssfeed){
-		$xml = new XMLReader;
-		$xml->open($rssfeed);
-
-		//$xml->read();
-		// while ($xml->read()) {
-	  //       if ($xml->nodeType == XMLReader::ELEMENT) {
-	  //              // print $xml->name.': ';
-		//
-	  //       } else if ($xml->nodeType == XMLReader::TEXT) {
-	  //               //print $xml->value.PHP_EOL;
-	  //       }
-		// 		}
-		return $xml;
-	}
-
 	function parseXML($rssfeed) {
-		$limit = 20;
+		$limit = 50;
 		$data = file_get_contents($rssfeed);
 		$len = strlen($data);
 		$data = substr($data,strpos($data,'<item>'));
