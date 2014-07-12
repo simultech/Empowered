@@ -133,7 +133,7 @@
         var infowindow = new google.maps.InfoWindow({
 			content: contentString
 	  	});
-        var map = new google.maps.Map(document.getElementById("map"),
+        var map = new google.maps.Map(document.getElementById(<?php echo $map_id; ?>),
             mapOptions);
         var marker = new google.maps.Marker({
 			position: new google.maps.LatLng(-34.397, 150.644),
@@ -147,4 +147,4 @@
       }
       google.maps.event.addDomListener(window, 'load', initialize);
 </script>
-<div id='map' class='map <?php echo $map_class; ?>' style="height:<?php echo $map_height;?>px;">fsda</div>
+<div id='<?php echo $map_id; ?>' class='map <?php echo $map_class; ?>' style="height:<?php echo $map_height;?>px;">fsda</div>
