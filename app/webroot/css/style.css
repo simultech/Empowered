@@ -68,3 +68,8 @@ div.meta {
 	background:#fafafa;
 	text-align:right;
 }
+div.map {
+	border:1px solid #ccc;
+	padding:10px;
+	margin:10px;
+}
