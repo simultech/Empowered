@@ -46,12 +46,14 @@
 					$communityactive = '';
 					$profileactive = '';
 					$loginactive = '';
+					$registeractive = '';
 					switch($active) {
 						case 'profile': $profileactive = 'active'; break;
 						case 'community': $communityactive = 'active'; break;
 						case 'information': $informationactive = 'active'; break;
 						case 'awareness': $awarenessactive = 'active'; break;
 						case 'login': $loginactive = 'active'; break;
+						case 'register': $registeractive = 'active'; break;
 						default: $homeactive = 'active'; break;
 					}
 				?>
@@ -59,19 +61,22 @@
 					<a href="/">Home</a>
 				</li>
 				<li class='<?php echo $awarenessactive; ?>'>
-					<a href="/awareness">Your not alone</a>
+					<a href="/awareness">Not alone</a>
 				</li>
 				<li class='<?php echo $informationactive; ?>'>
 					<a href="/information">Information Database</a>
 				</li>
 				<li class='<?php echo $communityactive; ?>'>
-					<a href="community">Community</a>
+					<a href="/community">Community</a>
 				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<?php
 				if(!$loggedIn) {
 				?>
+				<li class='<?php echo $registeractive; ?>'>
+					<a href="/register">Register</a>
+				</li>
 				<li class='<?php echo $loginactive; ?>'>
 					<a href="/users/login">Login</a>
 				</li>

@@ -39,10 +39,7 @@ class AppController extends Controller {
 	public $components = array(
         'Session',
         'Auth' => array(
-            'loginRedirect' => array(
-                'controller' => 'posts',
-                'action' => 'index'
-            ),
+            'loginRedirect' => '/',
             'logoutRedirect' => array(
                 'controller' => 'pages',
                 'action' => 'home',
@@ -67,9 +64,14 @@ class AppController extends Controller {
     	if($controller == 'profile') {
 	    	$this->active = 'profile';
     	}
-    	
+    	if($controller == 'register') {
+	    	$this->active = 'register';
+    	}
         $this->Auth->allow('index', 'view','home','awareness','information');
         $this->user = $this->Auth->user();
+        if(isset($this->user['User'])) {
+	        $this->user = $this->user['User'];
+        }
         if($this->user) {
 	        $this->loggedIn = true;
         } else {

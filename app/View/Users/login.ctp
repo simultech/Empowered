@@ -14,6 +14,6 @@
 			<input class="form-control" name="data[User][password]" type="password" id="UserPassword" required="required" placeholder="Password" />
 		</div>
     </fieldset>
-    <button type="submit" class="btn btn-default">Login</button>
+    <button type="submit" class="btn btn-primary">Login</button>
 <?php echo $this->Form->end(); ?>
 </div>

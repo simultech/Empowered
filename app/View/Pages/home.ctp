@@ -1,1 +1,2 @@
 <h2>Welcome to Empowered</h2>
+<div class="alert alert-info" role="alert">Empowered is an online community dedicated to support carers, to help them care for their patients, connect with other carers, and find government data to make their life easier.  Empowered is also dedicated to providing awareness </div>

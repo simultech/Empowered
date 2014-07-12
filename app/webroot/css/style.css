@@ -16,3 +16,55 @@ div#footer {
 	padding:20px;
 	color:#1995dc;
 }
+div#flashMessage {
+	border:1px solid green;
+	color:green;
+	background:#dfd;
+	padding:10px;
+	max-width:300px;
+	border-radius:4px;
+	float:right;
+	margin-top:-10px;
+}
+div.forum {
+	border:1px solid #eee;
+	margin-bottom:10px;
+	padding:10px;
+	border-radius:4px;
+	min-height:50px;
+}
+div.forum a h3 {
+	padding:0;
+	font-size:140%;
+	margin:0;
+	margin-left:-10px;
+}
+div.forum:hover {
+	background:#ddf;
+}
+div.forum a {
+	color:#333;
+	display:block;
+}
+div.forumheader {
+	font-weight:bold;
+	margin-bottom:10px;
+	text-align:center;
+}
+div.post {
+	margin-bottom:10px;
+	min-height:70px;
+	padding:10px;
+	border:1px solid #eee;
+	border-bottom:1px solid #ccc;
+}
+div.meta {
+	float:right;
+	width:200px;
+	border:1px solid #ddd;
+	font-size:90%;
+	padding:5px;
+	border-radius:4px;
+	background:#fafafa;
+	text-align:right;
+}
