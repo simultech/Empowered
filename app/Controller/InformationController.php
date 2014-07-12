@@ -11,10 +11,7 @@ class InformationController extends AppController {
 	}
 	
 	public function events() {
-		$blah = file_get_contents('files/style.css');
-		$data = array('1','2','3');
-		$this->set('data',$data);
-		print_r($blah);
+
 	}
 	
 	public function parks() {
@@ -46,24 +43,6 @@ class InformationController extends AppController {
 	
 	public function types() {
 		
-	}
-	
-	function csv_to_array($filename) {
-		if(!file_exists($filename) || !is_readable($filename)) return FALSE;
-
-		$header = NULL;
-		$data = array();
-		if (($handle = fopen($filename, 'r')) !== FALSE) {
-			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
-				if(!$header) {
-					$header = $row;
-				} else {
-					$data[] = array_combine($header, $row);
-				}
-			}
-			fclose($handle);
-		}
-		return $data;
 	}
 	
 	function parseRSS($rssfeed) {
