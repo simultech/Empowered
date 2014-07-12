@@ -61,8 +61,8 @@ class AppController extends Controller {
     	if($controller == 'community') {
 	    	$this->active = 'community';
     	}
-    	if($controller == 'community') {
-	    	$this->active = 'community';
+    	if($controller == 'users') {
+	    	$this->active = 'login';
     	}
     	if($controller == 'profile') {
 	    	$this->active = 'profile';

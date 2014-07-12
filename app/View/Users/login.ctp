@@ -5,9 +5,15 @@
         <legend>
             <?php echo __('Please enter your username and password'); ?>
         </legend>
-        <?php echo $this->Form->input('username');
-        echo $this->Form->input('password');
-    ?>
+        <div class="input text required form-group">
+			<label for="UserUsername">Username</label>
+			<input class="form-control" name="data[User][username]" maxlength="50" type="text" id="UserUsername" required="required" placeholder="Username"/>
+		</div>
+		<div class="input password required form-group">
+			<label for="UserPassword">Password</label>
+			<input class="form-control" name="data[User][password]" type="password" id="UserPassword" required="required" placeholder="Password" />
+		</div>
     </fieldset>
-<?php echo $this->Form->end(__('Login')); ?>
+    <button type="submit" class="btn btn-default">Login</button>
+<?php echo $this->Form->end(); ?>
 </div>

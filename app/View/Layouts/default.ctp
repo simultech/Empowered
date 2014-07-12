@@ -39,16 +39,32 @@
 		</div>
 		<div class="navbar-collapse collapse" id="navbar-main">
 			<ul class="nav navbar-nav">
-				<li>
+				<?php
+					$homeactive = '';
+					$awarenessactive = '';
+					$informationactive = '';
+					$communityactive = '';
+					$profileactive = '';
+					$loginactive = '';
+					switch($active) {
+						case 'profile': $profileactive = 'active'; break;
+						case 'community': $communityactive = 'active'; break;
+						case 'information': $informationactive = 'active'; break;
+						case 'awareness': $awarenessactive = 'active'; break;
+						case 'login': $loginactive = 'active'; break;
+						default: $homeactive = 'active'; break;
+					}
+				?>
+				<li class='<?php echo $homeactive; ?>'>
 					<a href="/">Home</a>
 				</li>
-				<li>
+				<li class='<?php echo $awarenessactive; ?>'>
 					<a href="/awareness">Your not alone</a>
 				</li>
-				<li class="active">
+				<li class='<?php echo $informationactive; ?>'>
 					<a href="/information">Information Database</a>
 				</li>
-				<li>
+				<li class='<?php echo $communityactive; ?>'>
 					<a href="community">Community</a>
 				</li>
 			</ul>
@@ -56,13 +72,13 @@
 				<?php
 				if(!$loggedIn) {
 				?>
-				<li>
+				<li class='<?php echo $loginactive; ?>'>
 					<a href="/users/login">Login</a>
 				</li>
 				<?php
 				} else {
 				?>
-				<li>
+				<li class='<?php echo $profileactive; ?>'>
 					<a href="/profile"><?php echo $user['username'];?> (Profile)</a>
 				</li>
 				<li>
@@ -75,14 +91,16 @@
 		</nav>
 	</div>
 </header>
+	<div id='main'>
 	<div class="container">
 		<div id="content">
 			<?php echo $this->Session->flash(); ?>
 			<?php echo $this->fetch('content'); ?>
 		</div>
-		<div id="footer">
-			Copyright &copy; 2014 empowered.net.au
-		</div>
+	</div>
+	</div>
+	<div id="footer">
+		Copyright &copy; 2014 empowered.net.au
 	</div>
 	<?php echo $this->element('sql_dump'); ?>
 </body>
