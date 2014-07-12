@@ -89,8 +89,9 @@ div.event-item{
 	height:350px;
 }
 
-div.event-item h3 {
+h4.info-date {
 	margin:10px 0;
+	/*background:#FF0000;*/
 }
 
 div.info-item h3 {
@@ -100,7 +101,9 @@ div.info-item .info-date {
 	float:right;
 	margin:14px 0;
 	font-weight:bold;
+	background:#FF0000;
 }
+
 
 div.pic{
 	height:200px;
@@ -113,6 +116,18 @@ div.pic{
 	background:#FF0000;
 }
 div.edit{
-	padding-left:60px;
-	background:#FF0000;
+	width:455%;
+	padding-left:50%;
+	padding-bottom:25px;
+	/*background:#FF0000;*/
+}
+div.event-title{
+	height:17%;
+	/*background:#A8F2FF;*/
+}
+.col-sm-3{
+	position:relative;
+}
+div.rel{
+	position: absolute; bottom: 0; left: 0;
 }

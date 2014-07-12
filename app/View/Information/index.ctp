@@ -11,17 +11,24 @@ foreach($data as $item) {
 	$date = $item['date'];
 	$dates = explode(",", $date);
 	$rating ="5";
+	$title = $item['title'];
+	if(strlen($title)>30){
+		$title=substr($title, 0, 37)."..";
+	}
 
 	//echo $dates[1];
 ?>
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="col-sm-3">
 <div class='event-item <?php echo $itemstate; ?>'>
-	<h3><?php echo $item['title']; ?></h3>
+	<div class="event-title">
+	<h3><?php echo $title ?></h3>
+</div>
 	<h4 class='info-date'><?php echo $dates[1] ?></h4>
 	<div class='pic'><img src="<?php echo $item['img']; ?>" /></div>
 	<!-- <p><?php echo html_entity_decode($item['description']); ?></p> -->
 	<div class="row">
+		<div class="rel">
 	<div class="col-xs-8 col-sm-6">
 		<div class="edit">
 	<i class="fa fa-star"> <?php echo $rating ?></i>
@@ -35,6 +42,8 @@ foreach($data as $item) {
 </div>
 </div>
 </div>
+</div>
+
 <?php
 }
 ?>
