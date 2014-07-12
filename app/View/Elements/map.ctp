@@ -1,4 +1,5 @@
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbsqfxbxr3WXtWEbMmNpA9uYPUDah9dO4"></script>
+<script type="text/javascript" src="/js/markercluster.js"></script>
 <script type="text/javascript">
 
 	var mapstyle = [
@@ -154,6 +155,9 @@
 		});
 		<?php
 		} else {
+		?>
+		var markers = [];
+		<?php
 			$i=0;
 			foreach($markers as $marker) {
 		?>
@@ -163,18 +167,20 @@
 	  	});
 		var marker = new google.maps.Marker({
 			position: new google.maps.LatLng(<?php echo $marker['lat']; ?>, <?php echo $marker['lng']; ?>),
-			map: map,
+			//map: map,
 			title: '<?php echo $marker['name']; ?>',
-			icon: 'http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-128e4d/shapecolor-color/shadow-1/border-dark/symbolstyle-white/symbolshadowstyle-dark/gradient-no/garden.png'
+			//icon: 'http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-128e4d/shapecolor-color/shadow-1/border-dark/symbolstyle-white/symbolshadowstyle-dark/gradient-no/garden.png'
 		});
 		google.maps.event.addListener(marker, 'click', function() {
 			infowindow_<?php echo $i; ?>.open(map,marker);
 		});
+		markers.push(marker);
 		<?php
 			$i++;
 			}
 		}
 		?>
+		var markerCluster = new MarkerClusterer(map, markers);
       }
       google.maps.event.addDomListener(window, 'load', initialize);
 </script>

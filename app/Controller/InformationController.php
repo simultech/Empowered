@@ -49,12 +49,15 @@ class InformationController extends AppController {
 				//laziest way to check for both DISABLED and DISABILITY
 				} else if (strpos($row[7],"DISABL") !== false
 						|| strpos($row[8],"isabl") !== false) {
+						if(strpos($row[8], "small sign") === false) {
 					//we only want info for parks with disabled access/whatnot
 					$data[] = $row;
+					}
 				}
 			}
 			fclose($handle);
 		}
+		$header = NULL;
 		//do it again for part 2
 		if (($handle = fopen("files/dataset_park_facilties_part_2.csv", 'r')) !== FALSE) {
 			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
@@ -71,6 +74,7 @@ class InformationController extends AppController {
 	}
 
 	public function hospitals() {
+		$geolookup = json_decode(file_get_contents('files/geo_cache.txt'));
 		$csv = file_get_contents('files/immunisation_clincs.csv');
 		$lines = split("\n", $csv);
 		$data = array();
@@ -92,10 +96,158 @@ class InformationController extends AppController {
 			$item['state'] = 'qld';
 			$data[] = $item;
 		}
+		$togeocache = $geolookup;
+		$csv = file_get_contents('files/publichospitalsinaihwhospitalsdatabase1213.csv');
+		$lines = split("\n", $csv);
+		foreach($lines as $line) {
+			$item = array();
+			$offset = 0;
+			$cols = split(',',$line);
+			if($cols[0] == 'State' || sizeOf($cols) < 3) {
+				continue;
+			}
+			$item['title'] = $cols[1].' '.$cols[4];
+			$item['state'] = strtolower($cols[0]);
+			$item['address'] = $cols[6].' '.$cols[7].' '.$cols[0];
+			$item['name'] = $cols[1].' - '.$item['address'];
+			$hash = 'z'.md5($item['address']);
+			if(!isset($geolookup->$hash)) {
+				$addr = str_replace(" ", "+", $item['address'].' Australia');
+				$url = 'https://maps.googleapis.com/maps/api/geocode/json?address='.$addr.'&key=AIzaSyCbsqfxbxr3WXtWEbMmNpA9uYPUDah9dO4';
+				$geo = json_decode(file_get_contents($url));
+				try {
+					$item['lat'] = $geo->results[0]->geometry->location->lat;
+					$item['lng'] = $geo->results[0]->geometry->location->lng;
+					$togeocache->$hash = array($item['lat'],$item['lng']);
+				} catch (Exception $e) {
+					echo 'uh oh';
+					print_r(json_encode($togeocache));
+					die();
+				}
+			} else {
+				$obj = $togeocache->$hash;
+				$item['lat'] = $obj[0];
+				$item['lng'] = $obj[1];
+			}
+			$data[] = $item;
+		}
+		$geolookup = file_put_contents('files/geo_cache.txt', json_encode($togeocache));
+
 		$this->set('data',$data);
 	}
 
 	public function allowance() {
+
+		$header = NULL;
+		$data_postcode = array();
+		if (($handle = fopen("files/march2104paymentrecipientsbypostcodeandpaymenttype.csv", 'r')) !== FALSE) {
+			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
+				if(!$header) {
+					$header = $row;
+				} else {
+					//postcode, carer allowance, carer allowance child health care card only, carer payment, disability support pension
+					if($row[0] != '') {
+						$data_postcode[] = array($row[0], $row[5], $row[6], $row[7], $row[10]);
+					}
+				}
+			}
+			fclose($handle);
+		}
+		$this->set('data_postcode', $data_postcode);
+
+		$header = NULL;
+		$data_lga = array();
+		if (($handle = fopen("files/march2104paymentrecipientsby2014localgovernmentarealgaandpaymenttype.csv", 'r')) !== FALSE) {
+			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
+				if(!$header) {
+					$header = $row;
+				} else {
+					//lga name, carer allowance, carer allowance child health care card only, carer payment, disability support pension
+					if($row[1] != '') {
+						$data_lga[] = array($row[1], $row[6], $row[7], $row[8], $row[11]);
+					}
+				}
+			}
+			fclose($handle);
+		}
+		$this->set('data_lga', $data_lga);
+
+		$header = NULL;
+		$data_state_sex = array();
+		if (($handle = fopen("files/march2104paymentrecipientsbypaymenttypebystateandterritorybysex.csv", 'r')) !== FALSE) {
+			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
+				if(!$header) {
+					$header = $row;
+				} else if (strpos($row[0],"Carer") !== false
+						|| strpos($row[0],"Disability") !== false) {
+					$data_state_sex[] = $row;
+				}
+			}
+			fclose($handle);
+		}
+		$this->set('data_state_sex', $data_state_sex);
+
+		$header = NULL;
+		$data_state_martial = array();
+		if (($handle = fopen("files/march2104paymentrecipientsbypaymenttypebystateandterritorybymaritalstatus.csv", 'r')) !== FALSE) {
+			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
+				if(!$header) {
+					$header = $row;
+				} else if (strpos($row[0],"Carer") !== false
+						|| strpos($row[0],"Disability") !== false) {
+					$data_state_marital[] = $row;
+				}
+			}
+			fclose($handle);
+		}
+		$this->set('data_state_martial', $data_state_martial);
+
+		$header = NULL;
+		$data_state_indigenous = array();
+		if (($handle = fopen("files/march2104paymentrecipientsbypaymenttypebystateandterritorybyindigenousindicator.csv", 'r')) !== FALSE) {
+			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
+				if(!$header) {
+					$header = $row;
+				} else if (strpos($row[0],"Carer") !== false
+						|| strpos($row[0],"Disability") !== false) {
+					$data_state_indigenous[] = $row;
+				}
+			}
+			fclose($handle);
+		}
+		$this->set('data_state_indigenous', $data_state_indigenous);
+
+		$header = NULL;
+		$data_state_age = array();
+		if (($handle = fopen("files/march2104paymentrecipientsbypaymenttypebystateandterritorybyagegroup.csv", 'r')) !== FALSE) {
+			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
+				if(!$header) {
+					$header = $row;
+				} else if (strpos($row[0],"Carer") !== false
+						|| strpos($row[0],"Disability") !== false) {
+					$data_state_age[] = $row;
+				}
+			}
+			fclose($handle);
+		}
+		$this->set('data_state_age', $data_state_age);
+
+		$header = NULL;
+		$data_state = array();
+		if (($handle = fopen("files/march2104paymentrecipientsbypaymenttypeandstateandterritory.csv", 'r')) !== FALSE) {
+			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
+				if(!$header) {
+					$header = $row;
+				} else {
+					//state, carer allowance child health care card only, carer payment, disability support pension
+					if($row[0] != '') {
+						$data_state[] = array($row[0], $row[5], $row[6], $row[7], $row[10]);
+					}
+				}
+			}
+			fclose($handle);
+		}
+		$this->set('data_state', $data_state);
 
 	}
 
@@ -108,7 +260,21 @@ class InformationController extends AppController {
 	}
 
 	public function types() {
+		$header = NULL;
+		$data = array();
+		if (($handle = fopen('files/expenditure-funding-social-services-2012-13.csv', 'r')) !== FALSE) {
+			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
+				if(!$header) {
+					$header = $row;
 
+				//laziest way to check for both DISABLED and DISABILITY
+				} else {
+					$data[] = $row;
+				}
+			}
+			fclose($handle);
+		}
+		$this->set('data',$data);
 	}
 
 	function parseXML($rssfeed) {
