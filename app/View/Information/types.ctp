@@ -17,6 +17,7 @@ foreach($data as $item) {
 	}
 ?>
 <div class='info-item state-qld'>
+	<?php echo $this->element('social'); ?>
 	<h3><?php echo $item[1]; ?></h3>
 	<p><strong><?php echo $item[8]; ?></strong></p>
 	<p><strong>Received from:</strong> <?php echo $item[9]; ?></p>
