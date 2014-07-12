@@ -15,10 +15,10 @@
 	<li <?php echo $activeareas['events']; ?>><a href="/information">Events</a></li>
 	<li <?php echo $activeareas['parks']; ?>><a href="/information/parks">Parks</a></li>
 	<li <?php echo $activeareas['hospitals']; ?>><a href="/information/hospitals">Hospitals and Clinics</a></li>
+	<li <?php echo $activeareas['types']; ?>><a href="/information/types">Social Services</a></li>
 	<li <?php echo $activeareas['allowance']; ?>><a href="/information/allowance">Carer Allowance</a></li>
 	<li <?php echo $activeareas['statistics']; ?>><a href="/information/statistics">Carer Statistics</a></li>
 	<li <?php echo $activeareas['needs']; ?>><a href="/information/needs">Carer Needs</a></li>
-	<li <?php echo $activeareas['types']; ?>><a href="/information/types">Disability Types</a></li>
 </ul>
 <div id='search' style='margin-top:20px;'>
 <div class='row'>

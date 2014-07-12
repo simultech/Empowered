@@ -12,7 +12,7 @@ foreach($data as $item) {
 		$marker = array();
 		$marker['lat'] = $item[13];
 		$marker['lng'] = $item[12];
-		$marker['name'] = 'jojo';
+		$marker['name'] = str_replace("'",'',$item[1]);
 		$markers[] = $marker;
 	}
 ?>

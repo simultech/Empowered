@@ -64,6 +64,7 @@ class InformationController extends AppController {
 	}
 
 	public function hospitals() {
+		$geolookup = json_decode(file_get_contents('files/geo_cache.txt'));
 		$csv = file_get_contents('files/immunisation_clincs.csv');
 		$lines = split("\n", $csv);
 		$data = array();
@@ -85,6 +86,43 @@ class InformationController extends AppController {
 			$item['state'] = 'qld';
 			$data[] = $item;
 		}
+		$togeocache = $geolookup;
+		$csv = file_get_contents('files/publichospitalsinaihwhospitalsdatabase1213.csv');
+		$lines = split("\n", $csv);
+		foreach($lines as $line) {
+			$item = array();
+			$offset = 0;
+			$cols = split(',',$line);
+			if($cols[0] == 'State' || sizeOf($cols) < 3) {
+				continue;
+			}
+			$item['title'] = $cols[1].' '.$cols[4];
+			$item['state'] = strtolower($cols[0]);
+			$item['address'] = $cols[6].' '.$cols[7].' '.$cols[0];
+			$item['name'] = $cols[1].' - '.$item['address'];
+			$hash = 'z'.md5($item['address']);
+			if(!isset($geolookup->$hash)) {
+				$addr = str_replace(" ", "+", $item['address'].' Australia');
+				$url = 'https://maps.googleapis.com/maps/api/geocode/json?address='.$addr.'&key=AIzaSyCbsqfxbxr3WXtWEbMmNpA9uYPUDah9dO4';
+				$geo = json_decode(file_get_contents($url));
+				try {
+					$item['lat'] = $geo->results[0]->geometry->location->lat;
+					$item['lng'] = $geo->results[0]->geometry->location->lng;
+					$togeocache->$hash = array($item['lat'],$item['lng']);
+				} catch (Exception $e) {
+					echo 'uh oh';
+					print_r(json_encode($togeocache));
+					die();
+				}
+			} else {
+				$obj = $togeocache->$hash;
+				$item['lat'] = $obj[0];
+				$item['lng'] = $obj[1];
+			}
+			$data[] = $item;
+		}
+		$geolookup = file_put_contents('files/geo_cache.txt', json_encode($togeocache));
+		
 		$this->set('data',$data);
 	}
 
@@ -206,7 +244,21 @@ class InformationController extends AppController {
 	}
 
 	public function types() {
-
+		$header = NULL;
+		$data = array();
+		if (($handle = fopen('files/expenditure-funding-social-services-2012-13.csv', 'r')) !== FALSE) {
+			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
+				if(!$header) {
+					$header = $row;
+					
+				//laziest way to check for both DISABLED and DISABILITY
+				} else {
+					$data[] = $row;
+				}					
+			}
+			fclose($handle);
+		}
+		$this->set('data',$data);
 	}
 
 	function parseXML($rssfeed) {
