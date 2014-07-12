@@ -38,9 +38,10 @@ div.forum a h3 {
 	font-size:140%;
 	margin:0;
 	margin-left:-10px;
+	margin-top:2px;
 }
 div.forum:hover {
-	background:#ddf;
+	background:#d9edf7;
 }
 div.forum a {
 	color:#333;

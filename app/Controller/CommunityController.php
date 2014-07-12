@@ -1,7 +1,7 @@
 <?php
 class CommunityController extends AppController {
 	
-	public $uses = array('Forum','Forumpost');
+	public $uses = array('Forum','Forumpost','User','Ingest');
 	
 	public function index() {
 		$forums = $this->Forum->find('all');
@@ -11,6 +11,8 @@ class CommunityController extends AppController {
 	public function view($forum_id) {
 		$forum = $this->Forum->findById($forum_id);
 		$forumposts = $this->Forumpost->find('all',array('conditions'=>array('forum_id'=>$forum_id,'parent_id'=>0),'order'=>array('created'=>'desc')));
+		$userlist = $this->User->find('list',array('fields'=>array('id','username')));
+		$this->set('userlist',$userlist);
 		$this->set('forum',$forum);
 		$this->set('forumposts',$forumposts);
 		if ($this->request->is('post')) {
@@ -35,6 +37,8 @@ class CommunityController extends AppController {
 			echo 'bad post id';
 			die();
 		}
+		$userlist = $this->User->find('list',array('fields'=>array('id','username')));
+		$this->set('userlist',$userlist);
 		if ($this->request->is('post')) {
             $this->Forumpost->create();
             $data = $this->request->data;
@@ -51,6 +55,16 @@ class CommunityController extends AppController {
         }
 		$forum = $this->Forum->findById($post['Forumpost']['forum_id']);
 		$replies = $this->Forumpost->find('all',array('conditions'=>array('forum_id'=>$post['Forumpost']['forum_id'],'parent_id'=>$post_id),'order'=>array('created'=>'asc')));
+		foreach($replies as &$reply) {
+			$keywords = split(' ', $reply['Forumpost']['text']);
+			foreach($keywords as $keyword) {
+				$ingest = $this->findIngests($keyword);
+				if(!empty($ingest)) {
+					$reply['ingest'] = $ingest;
+					break;
+				}
+			}
+		}
 		$this->set('forum',$forum);
 		$this->set('post',$post);
 		$this->set('replies',$replies);

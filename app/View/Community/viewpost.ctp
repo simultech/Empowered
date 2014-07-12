@@ -3,7 +3,7 @@
 	<h3>Topic: </h3>
 	<div class='post'>
 		<div class='meta'>
-			by <?php echo $post['Forumpost']['user_id']; ?><br />
+			by <?php echo $userlist[$post['Forumpost']['user_id']]; ?><br />
 			on <?php echo date('Y-m-d \a\t ga',strtotime($post['Forumpost']['created'])); ?>
 		</div>
 		<p><?php echo $post['Forumpost']['text']; ?></p>
@@ -14,12 +14,20 @@
 ?>
 	<div class='post'>
 		<div class='meta'>
-			by <?php echo $reply['Forumpost']['user_id']; ?><br />
+			by <?php echo $userlist[$reply['Forumpost']['user_id']]; ?><br />
 			on <?php echo date('Y-m-d \a\t ga',strtotime($reply['Forumpost']['created'])); ?>
 		</div>
 		<p><?php echo $reply['Forumpost']['text']; ?></p>
 	</div>
 <?php
+		if(isset($reply['ingest'])) {
+?>
+	<div class='ingest'>
+		<h4>Some additional information from <a href="<?php echo $reply['ingest']['backlink']; ?>"><?php echo $reply['ingest']['source']; ?></a></h4>
+		<p><?php echo $reply['ingest']['content']; ?></p>
+	</div>
+<?php
+		}
 	}
 	if(sizeOf($replies) == 0) {
 		echo '<p style="text-align:center;">Nobody has replied to this topic yet</p>';
