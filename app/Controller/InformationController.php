@@ -49,7 +49,7 @@ class InformationController extends AppController {
 			$item['name'] = str_replace('"', '', $item['name']);
 			$item['lat'] = $cols[sizeOf($cols)-2];
 			$item['lng'] = $cols[sizeOf($cols)-1];
-			$item['title'] = 'Government Clinic';
+			$item['title'] = 'Immunisation Clinic';
 			$item['state'] = 'qld';
 			$data[] = $item;
 		}
