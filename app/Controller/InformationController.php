@@ -41,8 +41,10 @@ class InformationController extends AppController {
 				//laziest way to check for both DISABLED and DISABILITY
 				} else if (strpos($row[7],"DISABL") !== false
 						|| strpos($row[8],"isabl") !== false) {
+						if(strpos($row[8], "small sign") === false) {
 					//we only want info for parks with disabled access/whatnot
 					$data[] = $row;
+					}
 				}
 			}
 			fclose($handle);
@@ -136,7 +138,9 @@ class InformationController extends AppController {
 					$header = $row;
 				} else {
 					//postcode, carer allowance, carer allowance child health care card only, carer payment, disability support pension
-					$data_postcode[] = array($row[0], $row[5], $row[6], $row[7], $row[10]);
+					if($row[0] != '') {
+						$data_postcode[] = array($row[0], $row[5], $row[6], $row[7], $row[10]);
+					}
 				}
 			}
 			fclose($handle);
@@ -151,7 +155,9 @@ class InformationController extends AppController {
 					$header = $row;
 				} else {
 					//lga name, carer allowance, carer allowance child health care card only, carer payment, disability support pension
-					$data_lga[] = array($row[1], $row[6], $row[7], $row[8], $row[11]);
+					if($row[1] != '') {
+						$data_lga[] = array($row[1], $row[6], $row[7], $row[8], $row[11]);
+					}
 				}
 			}
 			fclose($handle);
@@ -226,7 +232,9 @@ class InformationController extends AppController {
 					$header = $row;
 				} else {
 					//state, carer allowance child health care card only, carer payment, disability support pension
-					$data_state[] = array($row[0], $row[5], $row[6], $row[7], $row[10]);
+					if($row[0] != '') {
+						$data_state[] = array($row[0], $row[5], $row[6], $row[7], $row[10]);
+					}
 				}
 			}
 			fclose($handle);
