@@ -122,7 +122,7 @@
 
       function initialize() {
         var mapOptions = {
-          center: new google.maps.LatLng(-34.397, 150.644),
+          center: new google.maps.LatLng(<?php echo $map_lat; ?>, <?php echo $map_lng; ?>),
           zoom: 10,
           streetViewControl: false,
           mapTypeControl: false,
