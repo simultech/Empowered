@@ -41,8 +41,8 @@ class InformationController extends AppController {
 
 		$header = NULL;
 		$data = array();
-		if (($handle = fopen("file/dataset_park_facilties_part_1.csv", 'r')) !== FALSE) {
-			while (($row = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
+		if (($handle = fopen("files/dataset_park_facilties_part_1.csv", 'r')) !== FALSE) {
+			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
 				if(!$header) {
 					$header = $row;
 					
@@ -50,23 +50,24 @@ class InformationController extends AppController {
 				} else if (strpos($row[7],"DISABL") !== false
 						|| strpos($row[8],"isabl") !== false) {
 					//we only want info for parks with disabled access/whatnot
-					$data = array_push($data, $row);
+					$data[] = $row;
 				}
 			}
 			fclose($handle);
 		}
 		//do it again for part 2
-		if (($handle = fopen("file/dataset_park_facilties_part_2.csv", 'r')) !== FALSE) {
-			while (($row = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
+		if (($handle = fopen("files/dataset_park_facilties_part_2.csv", 'r')) !== FALSE) {
+			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
 				if(!$header) {
 					$header = $row;
 				} else if (strpos($row[7],"DISABL") !== false
 						|| strpos($row[8],"isabl") !== false) {
-					$data = array_push($data, $row);
+					$data[] = $row;
 				}
 			}
 			fclose($handle);
 		}
+		$this->set('data',$data);
 	}
 
 	public function hospitals() {
