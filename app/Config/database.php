@@ -68,9 +68,9 @@ class DATABASE_CONFIG {
 		'datasource' => 'Database/Mysql',
 		'persistent' => false,
 		'host' => 'localhost',
-		'login' => 'user',
-		'password' => 'password',
-		'database' => 'database_name',
+		'login' => 'root',
+		'password' => 'root',
+		'database' => 'empowered',
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);
