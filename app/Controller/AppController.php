@@ -31,4 +31,55 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+
+	public $loggedIn = false;
+	public $active = 'home';
+	public $user = array();
+
+	public $components = array(
+        'Session',
+        'Auth' => array(
+            'loginRedirect' => array(
+                'controller' => 'posts',
+                'action' => 'index'
+            ),
+            'logoutRedirect' => array(
+                'controller' => 'pages',
+                'action' => 'home',
+            )
+        )
+    );
+
+    public function beforeFilter() {
+    	$controller = $this->request->params['controller'];
+    	if($controller == 'awareness') {
+	    	$this->active = 'awareness';
+    	}
+    	if($controller == 'information') {
+	    	$this->active = 'information';
+    	}
+    	if($controller == 'community') {
+	    	$this->active = 'community';
+    	}
+    	if($controller == 'community') {
+	    	$this->active = 'community';
+    	}
+    	if($controller == 'profile') {
+	    	$this->active = 'profile';
+    	}
+    	
+        $this->Auth->allow('index', 'view','home','awareness','information');
+        $this->user = $this->Auth->user();
+        if($this->user) {
+	        $this->loggedIn = true;
+        } else {
+	        $this->loggedIn = false;
+        }
+    }
+    
+    public function beforeRender() {
+	    $this->set('loggedIn',$this->loggedIn);
+	    $this->set('user',$this->user);
+	    $this->set('active',$this->active);
+    }
 }

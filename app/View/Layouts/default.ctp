@@ -14,20 +14,68 @@
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
-		
+		echo $this->Html->css('base-bootstrap.min');
 		echo $this->Html->css('bootstrap.min');
-		echo $this->Html->css('bootstrap-theme.min');
+		echo $this->Html->css('style');
+		//echo $this->Html->css('bootstrap-theme.min');
 		
 		echo $this->Html->script('jquery-1.11.1.min');
 		echo $this->Html->script('bootstrap.min');
 		
+		
 	?>
 </head>
 <body>
-	<div id="container">
-		<div id="header">
-			<h1>Empowered</h1>
+<header class="navbar navbar-default navbar-fixed-top">
+	<div class="container">
+		<div class="navbar-header">
+			<button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a href="../" class="navbar-brand">Empowered</a>
 		</div>
+		<div class="navbar-collapse collapse" id="navbar-main">
+			<ul class="nav navbar-nav">
+				<li>
+					<a href="/">Home</a>
+				</li>
+				<li>
+					<a href="/awareness">Your not alone</a>
+				</li>
+				<li class="active">
+					<a href="/information">Information Database</a>
+				</li>
+				<li>
+					<a href="community">Community</a>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<?php
+				if(!$loggedIn) {
+				?>
+				<li>
+					<a href="/users/login">Login</a>
+				</li>
+				<?php
+				} else {
+				?>
+				<li>
+					<a href="/profile"><?php echo $user['username'];?> (Profile)</a>
+				</li>
+				<li>
+					<a href="/users/logout">Logout</a>
+				</li>
+				<?php
+				}
+				?>
+			</ul>
+		</nav>
+	</div>
+</header>
+	<div class="container">
 		<div id="content">
 			<?php echo $this->Session->flash(); ?>
 			<?php echo $this->fetch('content'); ?>
