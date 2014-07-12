@@ -21,6 +21,7 @@ class InformationController extends AppController {
 	}
 
 	public function parks() {
+		/*
 		$rssfeed = 'http://feeds.news.com.au/public/rss/2.0/news_national_3354.xml';
 		$data = $this->parseRSS($rssfeed);
 		//merge datasets
@@ -29,6 +30,47 @@ class InformationController extends AppController {
 		//http://stackoverflow.com/questions/1597736/how-to-sort-an-array-of-associative-arrays-by-value-of-a-given-key-in-php
 		$data = array_merge($data,$newdata);
 		$this->set('data',$data);
+		*/
+		/*
+		$parkStringOne = file_get_contents("file/dataset_park_facilties_part_1.csv");
+		$data = csv_to_array($parkStringOne, ',');
+		$parkStringTwo = file_get_contents("file/dataset_park_facilties_part_2.csv");
+		$dataTwo = csv_to_array($parkStringTwo, ',');
+		array_merge($data, $dataTwo);
+		$this->set('data', $data);
+		*/
+		
+		//fields
+		//PR_NO, PARK_NAME, NODE_ID, NODE_USE, NODES_NAME, ITEM_ID, ITEM_TYPE, ITEMS_NAME, DESCRIPTION, EASTING	NORTHING, ORIG_FID, LONGITUDE, LATITUDE
+
+		$header = NULL;
+		$data = array();
+		if (($handle = fopen("file/dataset_park_facilties_part_1.csv", 'r')) !== FALSE) {
+			while (($row = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
+				if(!$header) {
+					$header = $row;
+					
+				//laziest way to check for both DISABLED and DISABILITY
+				} else if (strpos($row[7],"DISABL") !== false
+						|| strpos($row[8],"isabl") !== false) {
+					//we only want info for parks with disabled access/whatnot
+					$data = array_push($data, $row);
+				}
+			}
+			fclose($handle);
+		}
+		//do it again for part 2
+		if (($handle = fopen("file/dataset_park_facilties_part_2.csv", 'r')) !== FALSE) {
+			while (($row = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
+				if(!$header) {
+					$header = $row;
+				} else if (strpos($row[7],"DISABL") !== false
+						|| strpos($row[8],"isabl") !== false) {
+					$data = array_push($data, $row);
+				}
+			}
+			fclose($handle);
+		}
 	}
 
 	public function hospitals() {
@@ -112,5 +154,6 @@ class InformationController extends AppController {
 		}
 		return $items;
 	}
+	
 }
 ?>
