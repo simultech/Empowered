@@ -27,14 +27,6 @@ class InformationController extends AppController {
 		$data = array_merge($data,$newdata);
 		$this->set('data',$data);
 		*/
-		/*
-		$parkStringOne = file_get_contents("file/dataset_park_facilties_part_1.csv");
-		$data = csv_to_array($parkStringOne, ',');
-		$parkStringTwo = file_get_contents("file/dataset_park_facilties_part_2.csv");
-		$dataTwo = csv_to_array($parkStringTwo, ',');
-		array_merge($data, $dataTwo);
-		$this->set('data', $data);
-		*/
 		
 		//fields
 		//PR_NO, PARK_NAME, NODE_ID, NODE_USE, NODES_NAME, ITEM_ID, ITEM_TYPE, ITEMS_NAME, DESCRIPTION, EASTING	NORTHING, ORIG_FID, LONGITUDE, LATITUDE
@@ -55,6 +47,7 @@ class InformationController extends AppController {
 			}
 			fclose($handle);
 		}
+		$header = NULL;
 		//do it again for part 2
 		if (($handle = fopen("files/dataset_park_facilties_part_2.csv", 'r')) !== FALSE) {
 			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
@@ -96,7 +89,112 @@ class InformationController extends AppController {
 	}
 
 	public function allowance() {
-
+		
+		$header = NULL;
+		$data_postcode = array();
+		if (($handle = fopen("files/march2104paymentrecipientsbypostcodeandpaymenttype.csv", 'r')) !== FALSE) {
+			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
+				if(!$header) {
+					$header = $row;
+				} else {
+					//postcode, carer allowance, carer allowance child health care card only, carer payment, disability support pension
+					$data_postcode[] = array($row[0], $row[5], $row[6], $row[7], $row[10]);
+				}
+			}
+			fclose($handle);
+		}
+		$this->set('data_postcode', $data_postcode);
+		
+		$header = NULL;
+		$data_lga = array();
+		if (($handle = fopen("files/march2104paymentrecipientsby2014localgovernmentarealgaandpaymenttype.csv", 'r')) !== FALSE) {
+			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
+				if(!$header) {
+					$header = $row;
+				} else {
+					//lga name, carer allowance, carer allowance child health care card only, carer payment, disability support pension
+					$data_lga[] = array($row[1], $row[6], $row[7], $row[8], $row[11]);
+				}
+			}
+			fclose($handle);
+		}
+		$this->set('data_lga', $data_lga);
+		
+		$header = NULL;
+		$data_state_sex = array();
+		if (($handle = fopen("files/march2104paymentrecipientsbypaymenttypebystateandterritorybysex.csv", 'r')) !== FALSE) {
+			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
+				if(!$header) {
+					$header = $row;
+				} else if (strpos($row[0],"Carer") !== false
+						|| strpos($row[0],"Disability") !== false) {
+					$data_state_sex[] = $row;
+				}
+			}
+			fclose($handle);
+		}
+		$this->set('data_state_sex', $data_state_sex);
+		
+		$header = NULL;
+		$data_state_martial = array();
+		if (($handle = fopen("files/march2104paymentrecipientsbypaymenttypebystateandterritorybymaritalstatus.csv", 'r')) !== FALSE) {
+			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
+				if(!$header) {
+					$header = $row;
+				} else if (strpos($row[0],"Carer") !== false
+						|| strpos($row[0],"Disability") !== false) {
+					$data_state_marital[] = $row;
+				}
+			}
+			fclose($handle);
+		}
+		$this->set('data_state_martial', $data_state_martial);
+		
+		$header = NULL;
+		$data_state_indigenous = array();
+		if (($handle = fopen("files/march2104paymentrecipientsbypaymenttypebystateandterritorybyindigenousindicator.csv", 'r')) !== FALSE) {
+			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
+				if(!$header) {
+					$header = $row;
+				} else if (strpos($row[0],"Carer") !== false
+						|| strpos($row[0],"Disability") !== false) {
+					$data_state_indigenous[] = $row;
+				}
+			}
+			fclose($handle);
+		}
+		$this->set('data_state_indigenous', $data_state_indigenous);
+		
+		$header = NULL;
+		$data_state_age = array();
+		if (($handle = fopen("files/march2104paymentrecipientsbypaymenttypebystateandterritorybyagegroup.csv", 'r')) !== FALSE) {
+			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
+				if(!$header) {
+					$header = $row;
+				} else if (strpos($row[0],"Carer") !== false
+						|| strpos($row[0],"Disability") !== false) {
+					$data_state_age[] = $row;
+				}
+			}
+			fclose($handle);
+		}
+		$this->set('data_state_age', $data_state_age);
+		
+		$header = NULL;
+		$data_state = array();
+		if (($handle = fopen("files/march2104paymentrecipientsbypaymenttypeandstateandterritory.csv", 'r')) !== FALSE) {
+			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
+				if(!$header) {
+					$header = $row;
+				} else {
+					//state, carer allowance child health care card only, carer payment, disability support pension
+					$data_state[] = array($row[0], $row[5], $row[6], $row[7], $row[10]);
+				}
+			}
+			fclose($handle);
+		}
+		$this->set('data_state', $data_state);
+		
 	}
 
 	public function statistics() {
