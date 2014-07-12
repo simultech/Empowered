@@ -80,6 +80,19 @@ div.info-item {
 	margin-bottom:10px;
 	border-radius:4px;
 }
+
+div.event-item{
+	border:1px solid #eee;
+	padding:10px;
+	margin-bottom:10px;
+	border-radius:4px;
+	height:350px;
+}
+
+div.event-item h3 {
+	margin:10px 0;
+}
+
 div.info-item h3 {
 	margin:10px 0;
 }
@@ -87,4 +100,19 @@ div.info-item .info-date {
 	float:right;
 	margin:14px 0;
 	font-weight:bold;
+}
+
+div.pic{
+	height:200px;
+	text-align:center;
+}
+
+<!---stuff for events-->
+ .event{
+	height:1000px;
+	background:#FF0000;
+}
+div.edit{
+	padding-left:60px;
+	background:#FF0000;
 }

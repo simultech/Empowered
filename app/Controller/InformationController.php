@@ -35,7 +35,7 @@ class InformationController extends AppController {
 		array_merge($data, $dataTwo);
 		$this->set('data', $data);
 		*/
-		
+
 		//fields
 		//PR_NO, PARK_NAME, NODE_ID, NODE_USE, NODES_NAME, ITEM_ID, ITEM_TYPE, ITEMS_NAME, DESCRIPTION, EASTING	NORTHING, ORIG_FID, LONGITUDE, LATITUDE
 
@@ -45,7 +45,7 @@ class InformationController extends AppController {
 			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
 				if(!$header) {
 					$header = $row;
-					
+
 				//laziest way to check for both DISABLED and DISABILITY
 				} else if (strpos($row[7],"DISABL") !== false
 						|| strpos($row[8],"isabl") !== false) {
@@ -125,6 +125,7 @@ class InformationController extends AppController {
 				'description'=>substr($itemdata,strpos($itemdata,'<description>')+13,strpos($itemdata,'</description>')-strpos($itemdata,'<description>')-13),
 				'link'=>substr($itemdata,strpos($itemdata,'<link>')+6,strpos($itemdata,'</link>')-strpos($itemdata,'<link>')-6),
 				'category'=>substr($itemdata,strpos($itemdata,'<category>')+10,strpos($itemdata,'</category>')-strpos($itemdata,'<category>')-10),
+				'img'=>substr($itemdata,strpos($itemdata,'&lt;img src')+13,strpos($itemdata,'" width')-strpos($itemdata,'&lt;img src=')-13),
 			);
 			$data = substr($data,strpos($data,'</item>')+7);
 			$i++;
@@ -151,6 +152,6 @@ class InformationController extends AppController {
 		}
 		return $items;
 	}
-	
+
 }
 ?>
