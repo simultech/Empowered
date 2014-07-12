@@ -133,7 +133,7 @@
         var infowindow = new google.maps.InfoWindow({
 			content: contentString
 	  	});
-        var map = new google.maps.Map(document.getElementById(<?php echo $map_id; ?>),
+        var map = new google.maps.Map(document.getElementById("<?php echo $map_id; ?>"),
             mapOptions);
         var marker = new google.maps.Marker({
 			position: new google.maps.LatLng(-34.397, 150.644),
