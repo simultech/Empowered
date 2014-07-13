@@ -7,20 +7,23 @@ class AwarenessController extends AppController {
 	}
 
 	function getCarerAllowancePaymentsReceived() {
-		return getPaymentsReceived($_POST["state"], $_POST["age"], "Carer Allowance");
+		$state = $_POST["state"];
+		$age = $_POST["age"];
+		$string = "Carer Allowance";
+		echo $this->getPaymentsReceived($state, $age , $string);
+		die();
 	}
 
-	function getCarerAllowanceHCCOnlyPaymentsReceived() {
-		return getPaymentsReceived($_POST["state"], $_POST["age"], "Carer Allowance (child hcc only)");
+	public function getCarerAllowanceHCCOnlyPaymentsReceived() {
+		return $this->getPaymentsReceived($_POST["state"], $_POST["age"], "Carer Allowance (child hcc only)");
 	}
 
-	function getDisabilitySupportPensionPaymentsReceived() {
-		return getPaymentsReceived($_POST["state"], $_POST["age"], "Disability Support Pension");
+	public function getDisabilitySupportPensionPaymentsReceived() {
+		return $this->getPaymentsReceived($_POST["state"], $_POST["age"], "Disability Support Pension");
 	}
 
-	function getPaymentsReceived() {
+	private function getPaymentsReceived($state, $age, $field) {
 		//field is one of "Carer Allowance", "Carer Allowance (child hcc only)", "Carer Payment", "Disability Support Pension"
-
 		if ($age < 24) {
 			if ($field = "Disability Support Pension") {
 				$index = 2;

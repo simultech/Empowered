@@ -45,22 +45,23 @@ $('#left').addClass('animated bounceInLeft');
 $('#leftSel').addClass('animated bounceInLeft');
 
 function submit(){
-  alert("hi");
-  $('#right').remove();
-  $('#rightInput').remove();
-  $('#rightState').remove();
-  $('#rightStateSel').remove();
-  $('#left').remove();
-  $('#leftSel').remove();
-  $('#submit').remove();
+
   var jojo = $('<div>hello</div>');
   $('#background').append(jojo);
+  var blah = $('#rightStateSel').val()+" and "+ $('#rightInput').val();
+  alert(blah);
 
-
-
-    $.post( "/awareness/getCarerAllowancePaymentsReceived", { state: $('#rightStateSel').value, age:$('#rightInput').value, gender:$('#leftSel').value})
+    $.post( "/awareness/getCarerAllowancePaymentsReceived", { state: $('#rightStateSel').val(), age:$('#rightInput').val(), gender:$('#leftSel').value})
     .done(function( data ) {
+      $('#right').remove();
+      $('#rightInput').remove();
+      $('#rightState').remove();
+      $('#rightStateSel').remove();
+      $('#left').remove();
+      $('#leftSel').remove();
+      $('#submit').remove();
       console.log(data);
+      alert(data);
     });
 
 
