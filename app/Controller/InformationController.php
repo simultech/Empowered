@@ -11,7 +11,7 @@ class InformationController extends AppController {
 
 	public function index() {
 		//parks
-		$data = $this->parseXML('files/parks.xml');
+		$data = $this->parseXML(getcwd().'/files/parks.xml');
 		foreach($data as &$item) {
 			$item['state'] = 'qld';
 			$item['date'] = html_entity_decode(substr($item['description'],0,strpos($item['description'],'&lt;br')));
@@ -302,6 +302,7 @@ class InformationController extends AppController {
 	}
 
 	public function types() {
+		ini_set('memory_limit','256M');
 		$header = NULL;
 		$data = array();
 		if (($handle = fopen('files/expenditure-funding-social-services-2012-13.csv', 'r')) !== FALSE) {

@@ -37,7 +37,7 @@
 <?php
 	} else {
 ?>
-	<p>Please <a href='/users/login'>log in</a> to reply to this topic</p>
+	<p>Please <a href='/users/login'>log in</a> or <a href='/register'>register</a> to create a topic</p>
 <?php
 	}
 ?>

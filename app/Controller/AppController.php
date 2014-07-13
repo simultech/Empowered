@@ -68,7 +68,7 @@ class AppController extends Controller {
     	if($controller == 'register') {
 	    	$this->active = 'register';
     	}
-        $this->Auth->allow('index', 'view','home','awareness','information');
+        $this->Auth->allow('index', 'view','home','awareness','information','viewpost');
         $this->user = $this->Auth->user();
         if(isset($this->user['User'])) {
 	        $this->user = $this->user['User'];
