@@ -6,7 +6,7 @@ class AwarenessController extends AppController {
 		//$this->set('data',$data);
 	}
 
-	function getCarerAllowancePaymentsReceived() {
+	public function getCarerAllowancePaymentsReceived() {
 		$state = $_POST["state"];
 		$age = $_POST["age"];
 		$string = "Carer Allowance";
@@ -61,6 +61,63 @@ class AwarenessController extends AppController {
 
 		$header = NULL;
 		if (($handle = fopen("files/march2104paymentrecipientsbypaymenttypebystateandterritorybyagegroup.csv", 'r')) !== FALSE) {
+			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
+				if(!$header) {
+					$header = $row;
+				} else if ($row[0] == $field) {
+					fclose($handle);
+					return $row[$index];
+				}
+			}
+		}
+	}
+	
+	public function getTotalCarerAllowancePaymentsReceived() {
+		if (isset($_POST["gender"])) {
+			$gender = $_POST["gender"];
+		} else {
+			$gender = "";
+		}
+		$field = "Carer Allowance";
+		echo $this->getTotalPaymentsReceived($gender, $field);
+		die();
+	}
+	
+	public function getTotalCarerAllowanceHCCOnlyPaymentsReceived() {
+		if (isset($_POST["gender"])) {
+			$gender = $_POST["gender"];
+		} else {
+			$gender = "";
+		}
+		$field = "Carer Allowance (child hcc only)";
+		echo $this->getTotalPaymentsReceived($gender, $field);
+		die();
+	}
+
+	public function getTotalDisabilitySupportPensionPaymentsReceived() {
+		if (isset($_POST["gender"])) {
+			$gender = $_POST["gender"];
+		} else {
+			$gender = "";
+		}
+		$field = "Disability Support Pension";
+		echo $this->getTotalPaymentsReceived($gender, $field);
+		die();
+	}
+	
+	private function getTotalPaymentsReceived($gender, $field) {
+		//field is one of "Carer Allowance", "Carer Allowance (child hcc only)", "Carer Payment", "Disability Support Pension"
+		
+		if (strtolower($gender) == "male") {
+			$index = 28;
+		} else if (strtolower($gender) == "female") {
+			$index = 29;
+		} else {
+			$index = 30;
+		}
+
+		$header = NULL;
+		if (($handle = fopen("files/march2104paymentrecipientsbypaymenttypebystateandterritorybysex.csv", 'r')) !== FALSE) {
 			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {
 				if(!$header) {
 					$header = $row;
