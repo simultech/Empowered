@@ -10,8 +10,12 @@ class InformationController extends AppController {
 	}
 
 	public function index() {
-		//parks
-		$data = $this->parseXML(getcwd().'/files/parks.xml');
+		if(file_exists(getcwd().'/files/cache_index.txt')) {
+			$data = $this->object_to_array(json_decode(file_get_contents(getcwd().'/files/cache_index.txt')));
+		} else {
+			$data = $this->parseXML(getcwd().'/files/parks.xml');
+			file_put_contents(getcwd().'/files/cache_index.txt', json_encode($data));
+		}
 		foreach($data as &$item) {
 			$item['state'] = 'qld';
 			$item['date'] = html_entity_decode(substr($item['description'],0,strpos($item['description'],'&lt;br')));
@@ -369,6 +373,18 @@ class InformationController extends AppController {
 			$items[] = $item;
 		}
 		return $items;
+	}
+	
+	function object_to_array($obj) {
+    	if(is_object($obj)) $obj = (array) $obj;
+		if(is_array($obj)) {
+        	$new = array();
+			foreach($obj as $key => $val) {
+            	$new[$key] = $this->object_to_array($val);
+			}
+		}
+		else $new = $obj;
+		return $new;       
 	}
 
 }
