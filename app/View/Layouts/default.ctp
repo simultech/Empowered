@@ -17,12 +17,13 @@
 		echo $this->Html->css('base-bootstrap.min');
 		echo $this->Html->css('bootstrap.min');
 		echo $this->Html->css('style');
+		echo $this->Html->css('animate');
 		//echo $this->Html->css('bootstrap-theme.min');
-		
+
 		echo $this->Html->script('jquery-1.11.1.min');
 		echo $this->Html->script('bootstrap.min');
-		
-		
+
+
 	?>
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
