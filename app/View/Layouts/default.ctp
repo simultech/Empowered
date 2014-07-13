@@ -111,6 +111,5 @@
 			Data driven with thanks from <a href="http://data.gov.au" target="_blank">data.gov.au</a>, <a href="http://data.qld.gov.au" target="_blank">data.qld.gov.au and <a href='http://data.brisbane.qld.gov.au' target="_blank">data.brisbane.qld.gov.au</a>.
 		</div>
 	</div>
-	<?php echo $this->element('sql_dump'); ?>
 </body>
 </html>
