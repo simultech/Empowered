@@ -16,8 +16,10 @@
 	<li <?php echo $activeareas['parks']; ?>><a href="/information/parks">Places to visit</a></li>
 	<li <?php echo $activeareas['hospitals']; ?>><a href="/information/hospitals">Hospitals and Clinics</a></li>
 	<li <?php echo $activeareas['types']; ?>><a href="/information/types">Social Services</a></li>
-	<li <?php echo $activeareas['allowance']; ?>><a href="/information/allowance">Carer Allowance</a></li>
-	<li <?php echo $activeareas['statistics']; ?>><a href="/information/statistics">Carer Statistics</a></li>
+	<!--<li <?php echo $activeareas['allowance']; ?>><a href="/information/allowance">Carer Allowance</a></li>-->
+	<!-- Hello, I really wish we got this finished! -->
+	<!--<li <?php echo $activeareas['statistics']; ?>><a href="/information/statistics">Carer Statistics</a></li>-->
+	<!-- Feel free to fix this up for us :) -->
 	<!--<li <?php echo $activeareas['needs']; ?>><a href="/information/needs">Carer Needs</a></li>-->
 </ul>
 <div id='search' style='margin-top:20px;'>
