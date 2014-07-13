@@ -7,7 +7,10 @@ body.layout_awareness div#main {
   background-size:100%;
 }
 </style>
-<div class="col-md-12">
+<?php
+print_r($data);
+?>
+<div class="col-md-12" id="background">
 <div class="col-md-offset-3 col-md-6 col-md-offset-3">
 <h1 id="right">Please enter you age</h1>
 <input id="rightInput"class="form-control" placeholder="Age"/>
@@ -27,9 +30,10 @@ body.layout_awareness div#main {
   <option value="nsw">New South Wales</option>
 </select>
 
-<button type="button" class="btn btn-primary btn-lg btn-block">Submit</button>
+<button type="button" id="submit" onclick="submit()" class="btn btn-primary btn-lg btn-block">Submit</button>
 </div>
-</div>
+
+<!-- <div id='toadd'></div> -->
 
 
 <script type='text/javascript'>
@@ -39,4 +43,17 @@ $('#rightState').addClass('animated bounceInRight');
 $('#rightStateSel').addClass('animated bounceInRight');
 $('#left').addClass('animated bounceInLeft');
 $('#leftSel').addClass('animated bounceInLeft');
+
+function submit(){
+  alert("hi");
+  $('#right').remove();
+  $('#rightInput').remove();
+  $('#rightState').remove();
+  $('#rightStateSel').remove();
+  $('#left').remove();
+  $('#leftSel').remove();
+  $('#submit').remove();
+  var jojo = $('<div>hello</div>');
+  $('#background').append(jojo);
+}
 </script>
