@@ -2,25 +2,25 @@
 class AwarenessController extends AppController {
 
 	public function index() {
-		$data = getPaymentsReceived($state, $age, "Carer Allowance"
-		$this->set('data',$data);
+		// $data = getPaymentsReceived($state, $age, "Carer Allowance"
+		//$this->set('data',$data);
 	}
-	
+
 	function getCarerAllowancePaymentsReceived($state, $age, $gender) {
 		return getPaymentsReceived($state, $age, "Carer Allowance");
 	}
-	
+
 	function getCarerAllowanceHCCOnlyPaymentsReceived($state, $age, $gender) {
 		return getPaymentsReceived($state, $age, "Carer Allowance (child hcc only)");
 	}
-	
+
 	function getDisabilitySupportPensionPaymentsReceived($state, $age, $gender) {
 		return getPaymentsReceived($state, $age, "Disability Support Pension");
 	}
-	
+
 	function getPaymentsReceived($state, $age, $field) {
 		//field is one of "Carer Allowance", "Carer Allowance (child hcc only)", "Carer Payment", "Disability Support Pension"
-		
+
 		if ($age < 24) {
 			if ($field = "Disability Support Pension") {
 				$index = 2;
@@ -55,7 +55,7 @@ class AwarenessController extends AppController {
 		} else { //if $state == "WA"
 			$index += 63;
 		}
-		
+
 		$header = NULL;
 		if (($handle = fopen("files/march2104paymentrecipientsbypaymenttypebystateandterritorybyagegroup.csv", 'r')) !== FALSE) {
 			while (($row = fgetcsv($handle, 1000, ',')) !== FALSE) {

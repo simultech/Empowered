@@ -8,7 +8,7 @@ body.layout_awareness div#main {
 }
 </style>
 <?php
-print_r($data);
+// print_r($data);
 ?>
 <div class="col-md-12" id="background">
 <div class="col-md-offset-1 col-md-5 col-md-offset-6">
@@ -58,7 +58,7 @@ function submit(){
 
 
 
-    $.post( "/awareness/getCarerAllowancePaymentReceived", { state: $('#rightStateSel').value, age:$('#rightInput').value, gender:$('#leftSel').value})
+    $.post( "/awareness/getCarerAllowancePaymentsReceived", { state: $('#rightStateSel').value, age:$('#rightInput').value, gender:$('#leftSel').value})
     .done(function( data ) {
       console.log(data);
     });
