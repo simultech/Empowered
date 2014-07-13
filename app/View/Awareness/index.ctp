@@ -11,7 +11,7 @@ body.layout_awareness div#main {
 print_r($data);
 ?>
 <div class="col-md-12" id="background">
-<div class="col-md-offset-3 col-md-6 col-md-offset-3">
+<div class="col-md-offset-1 col-md-5 col-md-offset-6">
 <h1 id="right">Please enter you age</h1>
 <input id="rightInput"class="form-control" placeholder="Age"/>
 <h1 id="left">Please select your gender</h1>
@@ -30,7 +30,7 @@ print_r($data);
   <option value="nsw">New South Wales</option>
 </select>
 
-<button type="button" id="submit" onclick="submit()" class="btn btn-primary btn-lg btn-block">Submit</button>
+<button type="button" id="submit" onclick="submit()" class="btn btn-primary btn-lg btn-block" style="margin-bottom:20px">Submit</button>
 </div>
 
 <!-- <div id='toadd'></div> -->
@@ -55,5 +55,14 @@ function submit(){
   $('#submit').remove();
   var jojo = $('<div>hello</div>');
   $('#background').append(jojo);
+
+
+
+    $.post( "/awareness/getCarerAllowancePaymentReceived", { state: $('#rightStateSel').value, age:$('#rightInput').value, gender:$('#leftSel').value})
+    .done(function( data ) {
+      console.log(data);
+    });
+
+
 }
 </script>
