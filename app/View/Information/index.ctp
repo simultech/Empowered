@@ -20,7 +20,7 @@ foreach($data as $item) {
 ?>
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="col-sm-3">
-<div class='event-item <?php echo $itemstate; ?>'>
+<div class='event-item <?php echo $itemstate; ?>' style='overflow:hidden;'>
 	<?php echo $this->element('social'); ?>
 	<div class="event-title">
 		<h3><?php echo $title ?></h3>

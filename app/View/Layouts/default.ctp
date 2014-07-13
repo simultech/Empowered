@@ -14,7 +14,6 @@
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
-		echo $this->Html->css('base-bootstrap.min');
 		echo $this->Html->css('bootstrap.min');
 		echo $this->Html->css('style');
 		echo $this->Html->css('animate');
@@ -31,7 +30,7 @@
 <header class="navbar navbar-default navbar-fixed-top">
 	<div class="container">
 		<div class="navbar-header">
-			<button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+			<button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
 				<span class="sr-only">Toggle navigation</span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
