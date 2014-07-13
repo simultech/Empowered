@@ -86,7 +86,7 @@ div.event-item{
 	padding:10px;
 	margin-bottom:10px;
 	border-radius:4px;
-	height:350px;
+	min-height:360px;
 }
 
 h4.info-date {
@@ -122,8 +122,12 @@ div.edit{
 	/*background:#FF0000;*/
 }
 div.event-title{
-	height:17%;
-	/*background:#A8F2FF;*/
+	height:80px;
+	overflow:hidden;
+	padding:0;
+}
+div.event-title h3{
+	margin-top:0px;
 }
 .col-sm-3{
 	position:relative;

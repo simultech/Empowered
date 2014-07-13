@@ -21,26 +21,15 @@ foreach($data as $item) {
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="col-sm-3">
 <div class='event-item <?php echo $itemstate; ?>'>
+	<?php echo $this->element('social'); ?>
 	<div class="event-title">
-	<h3><?php echo $title ?></h3>
-</div>
+		<h3><?php echo $title ?></h3>
+	</div>
 	<h4 class='info-date'><?php echo $dates[1] ?></h4>
 	<div class='pic'><img src="<?php echo $item['img']; ?>" /></div>
 	<!-- <p><?php echo html_entity_decode($item['description']); ?></p> -->
-	<div class="row">
-		<div class="rel">
-	<div class="col-xs-8 col-sm-6">
-		<div class="edit">
-	<i class="fa fa-star"> <?php echo $rating ?></i>
-</div>
-	</div>
-	<div class="col-xs-8 col-sm-6">
-		<div class="edit">
-	<i class="fa fa-comment"> <?php echo $rating ?></i>
-</div>
-</div>
-</div>
-</div>
+	<?php echo $this->element('comments',array('sig'=>$item['sig'],'comments'=>$item['comments'])); ?>
+
 </div>
 </div>
 

@@ -5,6 +5,7 @@ class InformationController extends AppController {
 
 	public function beforeFilter() {
 		$this->Auth->allow('index','events','parks','hospitals','allowance','statistics','needs','types');
+		$this->userslist = $this->User->find('list',array('fields'=>array('id','username')));
 		parent::beforeFilter();
 	}
 
@@ -14,6 +15,7 @@ class InformationController extends AppController {
 		foreach($data as &$item) {
 			$item['state'] = 'qld';
 			$item['date'] = html_entity_decode(substr($item['description'],0,strpos($item['description'],'&lt;br')));
+			$item = $this->commentit($item);
 		}
 		$this->set('data',$data);
 	}
@@ -68,6 +70,7 @@ class InformationController extends AppController {
 						|| strpos($row[8],"isabl") !== false) {
 						if(strpos($row[8], "small sign") === false) {
 					//we only want info for parks with disabled access/whatnot
+					$row = $this->commentit($row);
 					$data[] = $row;
 					}
 				}
@@ -82,6 +85,7 @@ class InformationController extends AppController {
 					$header = $row;
 				} else if (strpos($row[7],"DISABL") !== false
 						|| strpos($row[8],"isabl") !== false) {
+					$row = $this->commentit($row);
 					$data[] = $row;
 				}
 			}
@@ -89,9 +93,20 @@ class InformationController extends AppController {
 		}
 		$this->set('data',$data);
 	}
+	
+	function commentit($item) {
+		$item['sig'] = md5(print_r($item,true));
+			$item['comments'] = $this->Comment->findAllBySig($item['sig']);
+			foreach($item['comments'] as &$comment) {
+				$comment['Comment']['user_id'] = @$this->userslist[$comment['Comment']['user_id']];
+			}
+		return $item;
+	}
+	
+	var $userslist = array();
 
 	public function hospitals() {
-		$userslist = $this->User->find('list',array('fields'=>array('id','username')));
+		$this->userslist = $this->User->find('list',array('fields'=>array('id','username')));
 		$geolookup = json_decode(file_get_contents('files/geo_cache.txt'));
 		$csv = file_get_contents('files/immunisation_clincs.csv');
 		$lines = split("\n", $csv);
@@ -112,11 +127,7 @@ class InformationController extends AppController {
 			$item['lng'] = $cols[sizeOf($cols)-1];
 			$item['title'] = 'Immunisation Clinic';
 			$item['state'] = 'qld';
-			$item['sig'] = md5(print_r($item,true));
-			$item['comments'] = $this->Comment->findAllBySig($item['sig']);
-			foreach($item['comments'] as &$comment) {
-				$comment['Comment']['user_id'] = $userslist[$comment['Comment']['user_id']];
-			}
+			$item = $this->commentit($item);
 			$data[] = $item;
 		}
 		$togeocache = $geolookup;
@@ -152,8 +163,7 @@ class InformationController extends AppController {
 				$item['lat'] = $obj[0];
 				$item['lng'] = $obj[1];
 			}
-			$item['sig'] = md5(print_r($item,true));
-			$item['comments'] = $this->Comment->findAllBySig($item['sig']);
+			$item = $this->commentit($item);
 			$data[] = $item;
 		}
 		$geolookup = file_put_contents('files/geo_cache.txt', json_encode($togeocache));
@@ -162,7 +172,6 @@ class InformationController extends AppController {
 	}
 
 	public function allowance() {
-
 		$header = NULL;
 		$data_postcode = array();
 		if (($handle = fopen("files/march2104paymentrecipientsbypostcodeandpaymenttype.csv", 'r')) !== FALSE) {
@@ -172,7 +181,9 @@ class InformationController extends AppController {
 				} else {
 					//postcode, carer allowance, carer allowance child health care card only, carer payment, disability support pension
 					if($row[0] != '') {
-						$data_postcode[] = array($row[0], $row[5], $row[6], $row[7], $row[10]);
+						$stuff = array($row[0], $row[5], $row[6], $row[7], $row[10]);
+/* 						$stuff = $this->commentit($stuff); */
+						$data_postcode[] = $stuff;
 					}
 				}
 			}
@@ -189,7 +200,9 @@ class InformationController extends AppController {
 				} else {
 					//lga name, carer allowance, carer allowance child health care card only, carer payment, disability support pension
 					if($row[1] != '') {
-						$data_lga[] = array($row[1], $row[6], $row[7], $row[8], $row[11]);
+						$stuff = array($row[1], $row[6], $row[7], $row[8], $row[11]);
+/* 						$stuff = $this->commentit($stuff); */
+						$data_lga[] = $stuff;
 					}
 				}
 			}
@@ -205,6 +218,7 @@ class InformationController extends AppController {
 					$header = $row;
 				} else if (strpos($row[0],"Carer") !== false
 						|| strpos($row[0],"Disability") !== false) {
+/* 					$row = $this->commentit($row); */
 					$data_state_sex[] = $row;
 				}
 			}
@@ -220,6 +234,7 @@ class InformationController extends AppController {
 					$header = $row;
 				} else if (strpos($row[0],"Carer") !== false
 						|| strpos($row[0],"Disability") !== false) {
+/* 					$row = $this->commentit($row); */
 					$data_state_marital[] = $row;
 				}
 			}
@@ -235,6 +250,7 @@ class InformationController extends AppController {
 					$header = $row;
 				} else if (strpos($row[0],"Carer") !== false
 						|| strpos($row[0],"Disability") !== false) {
+/* 					$row = $this->commentit($row); */
 					$data_state_indigenous[] = $row;
 				}
 			}
@@ -250,6 +266,7 @@ class InformationController extends AppController {
 					$header = $row;
 				} else if (strpos($row[0],"Carer") !== false
 						|| strpos($row[0],"Disability") !== false) {
+/* 					$row = $this->commentit($row); */
 					$data_state_age[] = $row;
 				}
 			}
