@@ -3,7 +3,8 @@
 <!-- <h2>Awareness</h2> -->
 <style>
 body.layout_awareness div#main {
-  background:white;
+  background: url('/img/background_image1.jpg');
+  background-size:100%;
 }
 </style>
 <div class="col-md-12">
