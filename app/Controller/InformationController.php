@@ -1,6 +1,8 @@
 <?php
 class InformationController extends AppController {
 
+	public $uses = array('Comment','User');
+
 	public function beforeFilter() {
 		$this->Auth->allow('index','events','parks','hospitals','allowance','statistics','needs','types');
 		parent::beforeFilter();
@@ -14,6 +16,21 @@ class InformationController extends AppController {
 			$item['date'] = html_entity_decode(substr($item['description'],0,strpos($item['description'],'&lt;br')));
 		}
 		$this->set('data',$data);
+	}
+	
+	public function savecomment() {
+		$data = array(
+			'user_id'=>$this->user['id'],
+			'comment'=>$_POST['text'],
+			'sig'=>$_POST['sig'],
+		);
+		if($this->Comment->save($data)) {
+			$html = '<div class="com"><p>'.$_POST['text'].'</p><p class="commeta">Posted by you just now.</p></div>';
+			echo $html;
+		} else {
+			echo '{"saved":"false"}';
+		}
+		die();
 	}
 
 	public function parks() {
@@ -74,6 +91,7 @@ class InformationController extends AppController {
 	}
 
 	public function hospitals() {
+		$userslist = $this->User->find('list',array('fields'=>array('id','username')));
 		$geolookup = json_decode(file_get_contents('files/geo_cache.txt'));
 		$csv = file_get_contents('files/immunisation_clincs.csv');
 		$lines = split("\n", $csv);
@@ -94,6 +112,11 @@ class InformationController extends AppController {
 			$item['lng'] = $cols[sizeOf($cols)-1];
 			$item['title'] = 'Immunisation Clinic';
 			$item['state'] = 'qld';
+			$item['sig'] = md5(print_r($item,true));
+			$item['comments'] = $this->Comment->findAllBySig($item['sig']);
+			foreach($item['comments'] as &$comment) {
+				$comment['Comment']['user_id'] = $userslist[$comment['Comment']['user_id']];
+			}
 			$data[] = $item;
 		}
 		$togeocache = $geolookup;
@@ -120,7 +143,7 @@ class InformationController extends AppController {
 					$item['lng'] = $geo->results[0]->geometry->location->lng;
 					$togeocache->$hash = array($item['lat'],$item['lng']);
 				} catch (Exception $e) {
-					echo 'uh oh';
+					echo '<h1>google API limit hit</h1>';
 					print_r(json_encode($togeocache));
 					die();
 				}
@@ -129,6 +152,8 @@ class InformationController extends AppController {
 				$item['lat'] = $obj[0];
 				$item['lng'] = $obj[1];
 			}
+			$item['sig'] = md5(print_r($item,true));
+			$item['comments'] = $this->Comment->findAllBySig($item['sig']);
 			$data[] = $item;
 		}
 		$geolookup = file_put_contents('files/geo_cache.txt', json_encode($togeocache));

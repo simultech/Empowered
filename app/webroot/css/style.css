@@ -131,3 +131,47 @@ div.event-title{
 div.rel{
 	position: absolute; bottom: 0; left: 0;
 }
+
+div.social {
+	font-size:120%;
+	float:right;
+	
+}
+div.social a:hover{
+	text-decoration:none;
+}
+div.comments {
+	border-radius:4px;
+	height:30px;
+}
+div.comments p.count {
+	font-size:80%;
+	margin:10px;
+	padding-top:8px;
+}
+div.comments button {
+	float:right;
+}
+div.newcomment {
+	margin-top:10px;
+}
+div.newcomment button {
+	margin-top:10px;
+}
+div.commentarea {
+	display:none;
+}
+div.showing div.commentarea {
+	display:block;
+}
+div.com {
+	border-bottom:1px solid #eee;
+	margin-bottom:10px;
+	margin-left:10px;
+	font-size:90%;
+}
+div.com p.commeta {
+	font-size:80%;
+	color:#666;
+	text-align:right;
+}

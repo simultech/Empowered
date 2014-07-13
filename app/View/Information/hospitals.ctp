@@ -17,8 +17,10 @@ foreach($data as $item) {
 	}
 ?>
 <div class='info-item <?php echo $itemstate; ?>'>
+	<?php echo $this->element('social'); ?>
 	<h3><?php echo $item['title']; ?></h3>
 	<p><?php echo html_entity_decode($item['name']); ?></p>
+	<?php echo $this->element('comments',array('sig'=>$item['sig'],'comments'=>$item['comments'])); ?>
 </div>
 <?php
 }
