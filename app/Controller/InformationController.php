@@ -17,6 +17,9 @@ class InformationController extends AppController {
 			$item['date'] = html_entity_decode(substr($item['description'],0,strpos($item['description'],'&lt;br')));
 			$item = $this->commentit($item);
 		}
+		foreach($data as $item) {
+			$this->saveIngest($item['description'],'/information/','Upcoming Events');
+		}
 		$this->set('data',$data);
 	}
 	

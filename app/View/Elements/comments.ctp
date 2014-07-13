@@ -19,7 +19,7 @@
 	<div class="extracomments"></div>
 	<div class="newcomment">
 		<?php
-		if(isset($loggedIn)) {
+		if(isset($loggedIn) && $loggedIn) {
 		?>
 		<textarea class="form-control"></textarea>
 		<button type="submit" class="btn btn-primary btn-sm" id='<?php echo $randsend; ?>'>Add Comment</button>
