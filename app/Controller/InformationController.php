@@ -166,6 +166,9 @@ class InformationController extends AppController {
 			$item = $this->commentit($item);
 			$data[] = $item;
 		}
+		foreach($data as $row) {
+			$this->saveIngest($row['title'].' - '.$row['name'],'/information/hospitals','Hospitals and Clinics');
+		}
 		$geolookup = file_put_contents('files/geo_cache.txt', json_encode($togeocache));
 
 		$this->set('data',$data);
@@ -316,6 +319,9 @@ class InformationController extends AppController {
 				}
 			}
 			fclose($handle);
+		}
+		foreach($data as $row) {
+			$this->saveIngest($row[18],'/information/types','Social Services');
 		}
 		$this->set('data',$data);
 	}

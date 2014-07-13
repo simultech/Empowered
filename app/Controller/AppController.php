@@ -92,6 +92,7 @@ class AppController extends Controller {
     	//$this->saveIngest('hello how are you today I am good thanks bye','http://google.com','Government Data');
     	$keywords = array_diff(split(' ', strtolower(preg_replace("/[^A-Za-z ]/", '',$content))),$this->stopwords);
 	    $signature = md5($content.$backlink.$source);
+	    $keywords = implode(' ', $keywords);
 	    $data = array(
 	    	'content'=>$content,
 	    	'source'=>$source,
@@ -100,9 +101,9 @@ class AppController extends Controller {
 	    	'keywords'=>$keywords
 	    );
 	    try {
+	    	$this->Ingest->create();
 		    $this->Ingest->save($data);
 		} catch (Exception $e) {
-
 		}
     }
 
