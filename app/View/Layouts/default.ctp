@@ -27,7 +27,7 @@
 	?>
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="layout_<?php echo $active; ?>">
 <header class="navbar navbar-default navbar-fixed-top">
 	<div class="container">
 		<div class="navbar-header">
