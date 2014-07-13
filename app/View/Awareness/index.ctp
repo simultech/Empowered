@@ -200,7 +200,7 @@ function submit(){
       ' Or, register to be able to contribute to this community.</h1>'+
       '<div class="col-md-12">'+
       '<div class="col-md-6">'+
-      '<button type="button" id="share" onClick="doShare()" class="col-md-6 btn btn-primary btn-lg" ><i class="fa fa-facebook"></i> Share</button></div>'+
+      '<button type="button" id="share" onClick="doShare()" class="col-md-6 btn btn-primary btn-lg" ><i class="fa fa-facebook-square"></i> Share</button></div>'+
       '<div class="col-md-6">'+
       '<button type="button" id="register" onClick="doRegister()" class="col-md-6 btn btn-primary btn-lg""><i class="fa fa-user"></i> Register</button></div></div>');
       $('#background').append(FIRST);
